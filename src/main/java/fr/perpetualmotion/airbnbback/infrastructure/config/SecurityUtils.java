@@ -19,7 +19,7 @@ public class SecurityUtils {
 
     public static final String CLAIMS_NAMESPACE = "https://perpetualmotion.fr/roles";
 
-    public static User mapOauthAttributesToUser(Map<String, Object> attributes){
+    public static User mapOauth2AttributesToUser(Map<String, Object> attributes){
         User user = new User();
         String sub = String.valueOf(attributes.get("sub"));
 
