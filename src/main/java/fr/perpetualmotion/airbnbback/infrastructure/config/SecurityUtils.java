@@ -17,7 +17,7 @@ public class SecurityUtils {
     public static final String ROLE_TENANT = "ROLE_TENANT";
     public static final String ROLE_LANDLORD = "ROLE_LANDLORD";
 
-    public static final String CLAIMS_NAMESPACE = "https://perpetualmotion.fr/roles";
+    public static final String CLAIMS_NAMESPACE = "https://www.perpetualmotion.fr/roles";
 
     public static User mapOauth2AttributesToUser(Map<String, Object> attributes){
         User user = new User();
@@ -50,7 +50,6 @@ public class SecurityUtils {
         if(attributes.get("picture")!= null){
             user.setImageUrl((String)attributes.get("picture"));
         }
-
         if(attributes.get(CLAIMS_NAMESPACE)!=null){
             List<String> authoritiesRaw = (List<String>) attributes.get(CLAIMS_NAMESPACE);
             Set<Authority> authorities = authoritiesRaw.stream()
@@ -73,7 +72,7 @@ public class SecurityUtils {
     }
 
     private static List<SimpleGrantedAuthority> mapRolesToGrantedAuthorities(Collection<String> roles){
-        return roles.stream().filter(role -> role.startsWith("ROLE_")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        return roles.stream().filter(role -> role.startsWith("ROLE_")).map(SimpleGrantedAuthority::new).toList();
     }
 
     public static boolean hasCurrentUserAnyAuthorities(String ...authorities){

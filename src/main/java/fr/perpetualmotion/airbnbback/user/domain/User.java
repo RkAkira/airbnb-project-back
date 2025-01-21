@@ -2,6 +2,7 @@ package fr.perpetualmotion.airbnbback.user.domain;
 
 import fr.perpetualmotion.airbnbback.sharedkernet.domain.AbstractAuditingEntity;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,6 +31,7 @@ public class User extends AbstractAuditingEntity<Long> {
     @Column(name="image_url")
     private String imageUrl;
 
+    @UuidGenerator
     @Column(name="public_id", nullable = false)
     private UUID publicId;
 
@@ -101,12 +103,12 @@ public class User extends AbstractAuditingEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(email, user.email) && Objects.equals(imageUrl, user.imageUrl) && Objects.equals(authorities, user.authorities);
+        return Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(email, user.email) && Objects.equals(imageUrl, user.imageUrl) && Objects.equals(publicId, user.publicId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, lastName, firstName, email, imageUrl, authorities);
+        return Objects.hash(lastName, firstName, email, imageUrl, publicId);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class User extends AbstractAuditingEntity<Long> {
                 ", firstName='" + firstName + '\'' +
                 ", email='" + email + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", authorities=" + authorities +
+                ", publicId=" + publicId +
                 '}';
     }
 }

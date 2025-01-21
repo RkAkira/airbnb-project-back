@@ -54,7 +54,7 @@ public class UserService {
                 } else {
                     idpModifiedDate = Instant.ofEpochSecond((Integer) attributes.get(UPDATED_AT_KEY));
                 }
-                if (idpModifiedDate.isAfter(lastModifiedDate)|| forceResync){
+                if (idpModifiedDate.isAfter(lastModifiedDate) || forceResync){
                     updateUser(user);
                 }
             }
