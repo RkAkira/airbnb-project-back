@@ -1,17 +1,22 @@
 package fr.perpetualmotion.airbnbback.listing.mapper;
 
 import fr.perpetualmotion.airbnbback.listing.application.dto.CreatedListingDTO;
+import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayCardListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.SaveListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.sub.ListingInfoDTO;
+import fr.perpetualmotion.airbnbback.listing.application.dto.vo.PriceVO;
 import fr.perpetualmotion.airbnbback.listing.domain.Listing;
 import fr.perpetualmotion.airbnbback.listing.domain.ListingPicture;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {ListingPictureMapper.class})
 public interface ListingMapper {
 
-    @Mapping(target = "landlordPublicID", ignore = true )
+    @Mapping(target = "landlordPublicId", ignore = true )
     @Mapping(target = "publicId", ignore = true )
     @Mapping(target = "lastModifiedDate", ignore = true )
     @Mapping(target = "id", ignore = true )
@@ -28,4 +33,14 @@ public interface ListingMapper {
     Listing saveListingDTOToListing(SaveListingDTO saveListingDTO);
 
     CreatedListingDTO listingToCreatedListingDTO(Listing listing);
+
+    @Mapping(target="cover", source = "pictures")
+    List<DisplayCardListingDTO> listingToDisplayCardListingDTOs(List<Listing> listings);
+
+    @Mapping(target="cover", source = "pictures", qualifiedByName = "extract-cover")
+    DisplayCardListingDTO listingToDisplayCardListingDTO(Listing listing);
+
+    default PriceVO mapPriceToPriceVO(int price){
+        return new PriceVO(price);
+    }
 }

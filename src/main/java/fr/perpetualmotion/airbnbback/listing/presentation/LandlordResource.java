@@ -1,10 +1,15 @@
 package fr.perpetualmotion.airbnbback.listing.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.perpetualmotion.airbnbback.infrastructure.config.SecurityUtils;
 import fr.perpetualmotion.airbnbback.listing.application.dto.CreatedListingDTO;
+import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayCardListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.SaveListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.sub.PictureDTO;
 import fr.perpetualmotion.airbnbback.listing.application.service.LandLordService;
+import fr.perpetualmotion.airbnbback.sharedkernet.service.State;
+import fr.perpetualmotion.airbnbback.sharedkernet.service.StatusNotification;
+import fr.perpetualmotion.airbnbback.user.application.dto.ReadUserDTO;
 import fr.perpetualmotion.airbnbback.user.application.service.UserException;
 import fr.perpetualmotion.airbnbback.user.application.service.UserService;
 import jakarta.validation.ConstraintViolation;
@@ -14,16 +19,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -76,5 +80,27 @@ public class LandlordResource {
                 throw new UserException(String.format("Cannot parse multipart file :%s", multipartFile.getOriginalFilename()));
             }
         };
+    }
+
+    @GetMapping("/get-all")
+    @PreAuthorize("hasAnyRole('"+ SecurityUtils.ROLE_LANDLORD+"')")
+    public ResponseEntity<List<DisplayCardListingDTO>> getAll(){
+        ReadUserDTO connectedUser = userService.getAuthenticatedUserFromSecurityContext();
+        List<DisplayCardListingDTO> allProperties = landLordService.getAllProperties(connectedUser);
+        return ResponseEntity.ok(allProperties);
+    }
+
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyRole('"+ SecurityUtils.ROLE_LANDLORD+"')")
+    public ResponseEntity<UUID> delete(@RequestParam UUID publicId){
+        ReadUserDTO connectedUser = userService.getAuthenticatedUserFromSecurityContext();
+        State<UUID, String> deleteState = landLordService.delete(publicId,connectedUser);
+        if(deleteState.getStatus().equals(StatusNotification.OK)){
+            return ResponseEntity.ok(deleteState.getValue());
+        } else if(deleteState.getStatus().equals(StatusNotification.UNAUTHORIZED)) {
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
     }
 }
