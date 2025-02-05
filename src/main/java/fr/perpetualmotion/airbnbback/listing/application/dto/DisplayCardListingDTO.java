@@ -6,7 +6,7 @@ import fr.perpetualmotion.airbnbback.listing.domain.BookingCategory;
 
 import java.util.UUID;
 
-public record DisplayCardListingDTO(PriceVO priceVo, String Location,
+public record DisplayCardListingDTO(PriceVO price, String location,
                                     PictureDTO cover, BookingCategory bookingCategory,
                                     UUID publicId) {
 
