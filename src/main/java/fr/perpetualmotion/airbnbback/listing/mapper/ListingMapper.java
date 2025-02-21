@@ -2,6 +2,7 @@ package fr.perpetualmotion.airbnbback.listing.mapper;
 
 import fr.perpetualmotion.airbnbback.listing.application.dto.CreatedListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayCardListingDTO;
+import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.SaveListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.sub.ListingInfoDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.vo.PriceVO;
@@ -45,4 +46,15 @@ public interface ListingMapper {
     default PriceVO mapPriceToPriceVO(int price){
         return new PriceVO(price);
     }
+
+    @Mapping(target="landlord", ignore = true )
+    @Mapping(target = "description.title.value", source = "title")
+    @Mapping(target = "description.description.value", source = "description")
+    @Mapping(target = "info.bedrooms.value", source = "bedrooms")
+    @Mapping(target = "info.guests.value", source = "guest")
+    @Mapping(target = "info.beds.value", source = "beds")
+    @Mapping(target = "info.baths.value", source = "bathrooms")
+    @Mapping(target = "category", source = "bookingCategory")
+    @Mapping(target = "price.value", source = "price")
+    DisplayListingDTO listingToDisplayListingDTO(Listing listing);
 }
