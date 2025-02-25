@@ -2,6 +2,7 @@ package fr.perpetualmotion.airbnbback.listing.application.service;
 
 import fr.perpetualmotion.airbnbback.listing.application.dto.CreatedListingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayCardListingDTO;
+import fr.perpetualmotion.airbnbback.listing.application.dto.ListingCreateBookingDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.SaveListingDTO;
 import fr.perpetualmotion.airbnbback.listing.domain.Listing;
 import fr.perpetualmotion.airbnbback.listing.mapper.ListingMapper;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -58,5 +60,9 @@ public class LandLordService {
        } else {
            return State.<UUID,String>builder().forUnauthorized("User not authorized");
        }
+    }
+
+    public Optional<ListingCreateBookingDTO> getListingPublicId(UUID publicId){
+        return listingRepository.findByPublicId(publicId).map(listingMapper::mapListingToListingCreateBookingDTO);
     }
 }

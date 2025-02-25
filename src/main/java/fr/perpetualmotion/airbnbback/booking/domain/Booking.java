@@ -1,11 +1,9 @@
 package fr.perpetualmotion.airbnbback.booking.domain;
 
-import fr.perpetualmotion.airbnbback.listing.domain.Listing;
 import fr.perpetualmotion.airbnbback.sharedkernet.domain.AbstractAuditingEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;

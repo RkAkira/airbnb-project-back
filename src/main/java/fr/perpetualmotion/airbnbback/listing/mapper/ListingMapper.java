@@ -1,9 +1,6 @@
 package fr.perpetualmotion.airbnbback.listing.mapper;
 
-import fr.perpetualmotion.airbnbback.listing.application.dto.CreatedListingDTO;
-import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayCardListingDTO;
-import fr.perpetualmotion.airbnbback.listing.application.dto.DisplayListingDTO;
-import fr.perpetualmotion.airbnbback.listing.application.dto.SaveListingDTO;
+import fr.perpetualmotion.airbnbback.listing.application.dto.*;
 import fr.perpetualmotion.airbnbback.listing.application.dto.sub.ListingInfoDTO;
 import fr.perpetualmotion.airbnbback.listing.application.dto.vo.PriceVO;
 import fr.perpetualmotion.airbnbback.listing.domain.Listing;
@@ -57,4 +54,9 @@ public interface ListingMapper {
     @Mapping(target = "category", source = "bookingCategory")
     @Mapping(target = "price.value", source = "price")
     DisplayListingDTO listingToDisplayListingDTO(Listing listing);
+
+    @Mapping(target = "listingPublicId", source = "publicId")
+    @Mapping(target = "price.value", source = "price")
+    ListingCreateBookingDTO mapListingToListingCreateBookingDTO(Listing listing);
+
 }
