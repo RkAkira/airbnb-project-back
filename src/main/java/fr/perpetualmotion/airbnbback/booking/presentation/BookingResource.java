@@ -34,7 +34,7 @@ public class BookingResource {
         return ResponseEntity.ok(true);
     }
 
-    @GetMapping("/check_availability")
+    @GetMapping("/check-availability")
     public ResponseEntity<List<BookedDateDTO>> checkAvailability(@RequestParam UUID listingPublicId) {
         return ResponseEntity.ok(bookingService.checkAvailability(listingPublicId));
     }
