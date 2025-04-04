@@ -41,7 +41,7 @@ public class Listing extends AbstractAuditingEntity<Long> {
     @Column(name = "location")
     private String location;
     @Column(name = "landlord_public_id")
-    private UUID landlordPublicID;
+    private UUID landlordPublicId;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE)
     private Set<ListingPicture> pictures = new HashSet<>();
@@ -137,12 +137,12 @@ public class Listing extends AbstractAuditingEntity<Long> {
         this.location = location;
     }
 
-    public UUID getLandlordPublicID() {
-        return landlordPublicID;
+    public UUID getLandlordPublicId() {
+        return landlordPublicId;
     }
 
-    public void setLandlordPublicID(UUID landlordPublicID) {
-        this.landlordPublicID = landlordPublicID;
+    public void setLandlordPublicId(UUID landlordPublicID) {
+        this.landlordPublicId = landlordPublicID;
     }
 
     public Set<ListingPicture> getPictures() {
@@ -158,12 +158,12 @@ public class Listing extends AbstractAuditingEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Listing listing = (Listing) o;
-        return guest == listing.guest && bedrooms == listing.bedrooms && beds == listing.beds && bathrooms == listing.bathrooms && price == listing.price && Objects.equals(title, listing.title) && Objects.equals(description, listing.description) && bookingCategory == listing.bookingCategory && Objects.equals(location, listing.location) && Objects.equals(landlordPublicID, listing.landlordPublicID);
+        return guest == listing.guest && bedrooms == listing.bedrooms && beds == listing.beds && bathrooms == listing.bathrooms && price == listing.price && Objects.equals(title, listing.title) && Objects.equals(description, listing.description) && bookingCategory == listing.bookingCategory && Objects.equals(location, listing.location) && Objects.equals(landlordPublicId, listing.landlordPublicId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, guest, bedrooms, beds, bathrooms, price, bookingCategory, location, landlordPublicID);
+        return Objects.hash(title, description, guest, bedrooms, beds, bathrooms, price, bookingCategory, location, landlordPublicId);
     }
 
     @Override
@@ -178,7 +178,7 @@ public class Listing extends AbstractAuditingEntity<Long> {
                 ", price=" + price +
                 ", bookingCategory=" + bookingCategory +
                 ", location='" + location + '\'' +
-                ", landlordPublicID=" + landlordPublicID +
+                ", landlordPublicID=" + landlordPublicId +
                 '}';
     }
 }
